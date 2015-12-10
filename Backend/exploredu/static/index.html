@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>ExplorEdu</title>
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <!-- Custom Fonts -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' type='text/css'>
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' type='text/css'>
+  <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+  <link rel="stylesheet" href="css/creative.css" type="text/css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body id="page-top" ng-app="eeApp" ng-controller="eeCtrl" ng-strict-di>
+
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">ExplorEdu</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+					<li><a class="page-scroll" href="#searchOverview" id="search">Search</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+	<header>
+		<div class="header-content">
+			<div class="header-content-inner">
+				<h1>Exploring Education</h1><hr>
+				<!-- <p>Find stuff here</p> -->
+			</div>
+			
+		</div>
+		<div class="hContainer text-left">
+			<span ng-click="eeNews.eeHNews={'margin-left': eeNews.moveLeft()}" ng-show="eeNews.menuItems > 3" class="leftArrow"><i class="fa fa-chevron-left fa-2x"></i></span>
+			<span ng-click="eeNews.eeHNews={'margin-left': eeNews.moveRight()}" ng-show="eeNews.menuItems > 3" class="rightArrow"><i class="fa fa-chevron-right fa-2x"></i></span>
+			<div class="hNewsBox">
+				<ul class="hScroll" ng-style="eeNews.eeHNews">
+					<li ng-repeat="e in EventRegistryEducation">
+						<p class="newsMeta"><a ng-href="http://{{e.source.uri}}">{{e.source.title}}</a><span>{{e.date}}</span></p>
+						<p class="newsTitle"><a ng-href="{{e.url}}">{{e.title}}</a></p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="hContainer text-left">
+			<span ng-click="eePolicies.eeHPolicies={'margin-left': eePolicies.moveLeft()}" ng-show="eePolicies.menuItems > 3" class="leftArrow"><i class="fa fa-chevron-left fa-2x"></i></span>
+			<span ng-click="eePolicies.eeHPolicies={'margin-left': eePolicies.moveRight()}" ng-show="eePolicies.menuItems > 3" class="rightArrow"><i class="fa fa-chevron-right fa-2x"></i></span>
+			<div class="hPoliciesBox">
+				<ul class="hScroll" ng-style="eePolicies.eeHPolicies">
+					<li ng-repeat="p in Zakoni" class="hPolicy">
+						<b>{{p.VRSTA}}</b> {{p.NASLOV}}&nbsp;<a ng-href="{{p.link}}"><i class="fa fa-arrow-right"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</header>
+			
+  <section class="bg-dark" id="searchOverview">
+		<div class="container text-center">
+			<h2>Search</h2>
+			<div class="row">
+				<div class="btn-group" data-toggle="buttons" id="searchToggles">
+					<label class="btn active overviewSearch" ng-click="eeAllSearch()"><input type="radio" name="options" id="btnAll"> All</label>
+					<label class="btn narrowSearch" ng-click="eeMore('materials')"><input type="radio" name="options" id="btnMaterials"> Materials</label>
+					<label class="btn narrowSearch" ng-click="eeMore('events')"><input type="radio" name="options" id="btnEvents"> Events</label>
+					<label class="btn narrowSearch" ng-click="eeMore('lectures')"><input type="radio" name="options" id="btnLectures"> Lectures</label>
+					<label class="btn narrowSearch" ng-click="eeMore('projects')"><input type="radio" name="options" id="btnProjects"> Projects</label>
+					<label class="btn narrowSearch" ng-click="eeMore('experts')"><input type="radio" name="options" id="btnExperts"> Experts</label>
+				</div>
+				
+				<div class="input-group">
+					<input type="text" id="searchQuery" class="form-control" placeholder="example search: {{searchString}}" aria-describedby="search" ng-keypress="updateSearchResults($event)">
+					<span class="btn btn-default input-group-addon" id="searchButton" ng-click="updateSearchResults($event)">Search</span>
+				</div>
+				<div id="advancedSearchMaterials">
+					<p>Grade:
+						<div class="btn-group togglesMaterials" data-toggle="buttons" id="gradeToggles">
+							<label class="btn"><input type="radio" name="grades"> Vsi razredi</label>
+							<label class="btn" ng-repeat="g in categoriesMaterials.grades"><input type="radio" name="grades" value='"grade": "{{g}}"'> {{g}}.</label>
+						</div>
+					<p>
+					<p>Level
+						<div class="btn-group togglesMaterials" data-toggle="buttons" id="gradeToggles">
+							<label class="btn"><input type="radio" name="levels"> Vsi nivoji</label>
+							<label class="btn" ng-repeat="l in categoriesMaterials.levels"><input type="radio" name="levels" value='"level": "{{l}}"'> {{levelText(l)}}</label>
+						</div>
+					</p>
+				</div>
+			</div>
+
+			<hr class="primary"><h2>{{searchString}}</h2>
+			<em class="text-muted">Overview of your search</em>
+			<div class="row">
+				<div class="col-md-4 text-left">
+					<h3>{{counterSum()}} results</h3>
+					<div class="counters"><table>
+						<tr ng-repeat="c in counter"><td class="text-right">{{c.counter}}</td><td>{{c.label}}</td></tr>
+					</table></div>
+				</div>
+				<div class="col-md-4 text-center"></div>
+				<div class="col-md-8 text-center"><div id="wordCloud"></div></div>
+			</div>
+		</div>
+	</section>
+
+	<section id="searchResults" class="overviewSearchResults">
+		<div class="container">
+			<h2 class="section-heading text-center">Search Results</h2><hr class="primary">
+			<div class="row">
+				<div class="col-md-6 text-center">
+					<div class="result-box">
+						<h3>News</h3>
+						<ul><li ng-repeat="e in EventRegistry">
+							<p class="newsMeta"><a ng-href="http://{{e.source.uri}}">{{e.source.title}}</a><span>{{e.date}}</span></p>
+							<p><a ng-href="{{e.url}}">{{e.title}}</a></p>
+							<p class="newsBody">{{e.body}}</p>
+						</li></ul>
+						<a id="moreEvents" class="more" ng-click="eeMore('events')">more...</a>
+					</div>
+				</div>
+				<div class="col-md-6 text-center">
+					<div class="result-box">
+						<h3>Materials</h3>
+						<em class="text-center text-muted">at the moment, this information is only available in Slovenian language</em>
+						<ul><li ng-repeat="m in SIO" class="resultMaterials">
+							<a ng-href="{{m.link}}"><i class="fa fa-book fa-3x"></i></a>
+							<p>{{m.sio_level_desc}}</p>
+							<p class="small muted"><a ng-href="{{m.sio_link}}">{{m.source}}</a></p>
+							<p class="clearfix">&nbsp;</p>
+						</li></ul>
+						<hr class="primary">
+						<em class="text-center text-muted">information in other languages</em>
+						<ul><li ng-repeat="m in ODS" class="resultMaterials">
+							<a ng-href="{{m.link}}"><i class="fa fa-book fa-3x"></i></a>
+							<p class="small">{{m.content}}</p>
+							<p class="clearfix">&nbsp;</p>
+						</li></ul>
+						<ul><li ng-repeat="m in OER" class="resultMaterials">
+							<a ng-href="{{m.link}}"><img ng-src="{{m.img_url}}" /></i></a>
+							<p>{{m.title}}</p>
+							<p class="small">{{m.desc}}</p>
+							<p class="clearfix">&nbsp;</p>
+						</li></ul>
+						<a id="moreMaterials" class="more" ng-click="eeMore('materials')">more...</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="no-padding overviewSearchResults" id="videolectures">
+		<div class="container-fluid">
+			<div class="row no-gutter" id="lec">
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="l in VideoLectures">
+                    <a ng-href="http://videolectures.net/{{l.url}}" class="videolectures">
+                        <div class="ee-screenshot" ng-style="{'background-image': 'http://videolectures.net/{{l.url}}/screenshot.jpg'"></div>
+                        <div class="videolectures-caption">
+                            <div class="videolectures-caption-content">
+                                <div class="project-category text-faded">{{l.recorded}}</div>
+                                <div class="project-name">{{l.title}}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+			</div>
+		</div>
+		<p class="text-center"><a id="moreLectures" class="more" ng-click="eeMore('lectures')">more...</a></p>
+	</section>
+	
+	<section id="scienceAtlas" class="overviewSearchResults">
+		<div class="container">
+			<p class="text-center text-muted"><em>at the moment, information about projects and experts is only available for Slovenia</em></p>
+			<div class="row">
+				<div class="col-md-4 text-center">
+					<div class="result-box">
+						<h3>Projects</h3>
+						<div id="projects-histogram"></div>
+						<ul id="prj">
+							<li ng-repeat="p in SAProjects">
+								<p class="result-label"><a ng-href="http://www.sicris.si/public/jqm/prj.aspx?lang=eng&opt=2&subopt=400&id={{p.id}}">{{p.name}}</a></p>
+								<p class="result-classification">{{p.startdate}}, {{p.enddate}}, {{p.mstid}}</p>
+							</li>
+						</ul>
+						<a id="moreProjects" class="more" ng-click="eeMore('projects')">more...</a>
+					</div>
+				</div>
+				<div class="col-md-8 text-center">
+					<div class="result-box">
+						<h3>Experts</h3>
+						<div id="graph" style="height:700px"></div><!--<h3>Collaboration graph</h3>-->
+						<p><span ng-repeat="k in allKeywords" class="{{k.category}}" ng-style="{'font-size': fontSize(k.freq) }">{{k.name}} </span></p>
+						<p id="rsr">
+							<span ng-repeat="r in SAExperts">
+								<a ng-href="http://www.sicris.si/public/jqm/rsr.aspx?lang=eng&opt=2&subopt=300&code1=cmn&id={{r.id}}">{{r.lname}} {{r.fname}}</a>
+							</span>
+						</p>
+						<a id="moreExperts" class="more" ng-click="eeMore('experts')">more...</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="onlyProjects" class="narrowSearchResults">
+		<div class="container">
+			<div class="row">
+				<div class="result-box">
+					<h2 class="section-heading text-center">Projects</h2><hr class="primary">
+					<p class="text-center text-muted"><em>related to &quot;{{searchString}}&quot;</em></p>
+					<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+					<div id="projects-histogram"></div>
+					<ul id="prj">
+						<li ng-repeat="p in SAProjects">
+							<p class="result-label"><a ng-href="http://www.sicris.si/public/jqm/prj.aspx?lang=eng&opt=2&subopt=400&id={{p.id}}">{{p.name}}</a></p>
+							<p class="result-classification">{{p.startdate}}, {{p.enddate}}, {{p.mstid}}</p>
+						</li>
+					</ul>
+					<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="onlyExperts" class="narrowSearchResults">
+		<div class="container">
+			<div class="row">
+				<div class="result-box">
+					<h2 class="section-heading text-center">Experts</h2><hr class="primary">
+					<p class="text-center text-muted"><em>related to &quot;{{searchString}}&quot;</em></p>
+					<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+					<div id="graphBig" style="height:500px"></div><!--<h3>Collaboration graph</h3>-->
+					<p id="rsr">
+						<span ng-repeat="r in SAExperts">
+							<a ng-href="http://www.sicris.si/public/jqm/rsr.aspx?lang=eng&opt=2&subopt=300&code1=cmn&id={{r.id}}">{{r.lname}} {{r.fname}}</a>
+						</span>
+					</p>
+					<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="onlyEvents" class="narrowSearchResults">
+		<div class="container">
+			<div class="row">
+				<div class="result-box">
+					<h2 class="section-heading text-center">News</h2><hr class="primary">
+					<p class="text-center text-muted"><em>related to &quot;{{searchString}}&quot;</em></p>
+					<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+					<ul><li ng-repeat="e in EventRegistry">
+						<p class="newsMeta"><a ng-href="http://{{e.source.uri}}">{{e.source.title}}</a><span>{{e.date}}</span></p>
+						<p><a ng-href="{{e.url}}">{{e.title}}</a></p>
+						<p class="newsBody">{{e.body}}</p>
+					</li></ul>
+				</div>
+				<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+			</div>
+		</div>
+	</section>
+	
+	<section id="onlyMaterials" class="narrowSearchResults">
+		<div class="container">
+			<div class="row">
+				<div class="result-box">
+					<h2 class="section-heading text-center">Materials</h2>
+					<p class="text-center text-muted"><em>related to &quot;{{searchString}}&quot;</em></p>
+					<hr class="primary">
+					<div class="col-md-6">
+						<p class="text-center text-muted"><em>at the moment, this information is only available in Slovenian language</em></p>
+						<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+						<ul><li ng-repeat="m in SIO" class="resultMaterials">
+							<a ng-href="{{m.link}}"><i class="fa fa-book fa-3x"></i></a>
+							<p>{{m.sio_level_desc}}</p>
+							<p class="small muted"><a ng-href="{{m.sio_link}}">{{m.source}}</a></p>
+							<p class="clearfix">&nbsp;</p>
+						</li></ul>
+						<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+					</div>
+					<div class="col-md-6">
+						<p class="text-center text-muted"><em>information in other languages</em></p>
+						<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+						<ul><li ng-repeat="m in ODS" class="resultMaterials">
+							<a ng-href="{{m.link}}"><i class="fa fa-book fa-3x"></i></a>
+							<p class="small">{{m.content}}</p>
+							<p class="clearfix">&nbsp;</p>
+						</li></ul>
+						<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="no-padding narrowSearchResults" id="onlyLectures">
+		<div class="container-fluid">
+			<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+			<div class="row no-gutter" id="lec">
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="l in VideoLectures">
+                    <a ng-href="http://videolectures.net/{{l.url}}" class="videolectures">
+                        <div class="ee-screenshot" ng-style="{'background-image': 'url(http://videolectures.net/{{l.url}}/screenshot.jpg)'}"></div>
+                        <div class="videolectures-caption">
+                            <div class="videolectures-caption-content">
+                                <div class="project-category text-faded">{{l.recorded}}</div>
+                                <div class="project-name">{{l.title}}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+			</div>
+			<p class="text-right"><a ng-click="eeAllSearch()">...less</a></p>
+		</div>
+	</section>
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- not working link -->
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>-->
+  <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+  <!-- Plugin JavaScript -->
+  <script type="text/javascript" src="js/jquery.easing.min.js"></script>
+  <script type="text/javascript" src="js/jquery.fittext.js"></script>
+  <script type="text/javascript" src="js/wow.min.js"></script>
+  <script type="text/javascript" src="js/jquery.als-1.7.min.js"></script>
+  <script type="text/javascript" src="js/typeahead.bundle.min.js"></script>
+  <script type="text/javascript" src="js/d3.layout.cloud.js"></script>
+  <script type="text/javascript" src="js/sigma/sigma.min.js"></script>
+  <script type="text/javascript" src="js/sigma/sigma.forceatlas2.js"></script>
+  <!-- Custom JavaScript -->
+  <script type="text/javascript" src="js/creative.js"></script>
+  <script type="text/javascript" src="js/graph.js"></script>
+  <script type="text/javascript" src="js/client.js"></script>
+  <!-- <script src="http://code.angularjs.org/snapshot/angular.js"></script> -->
+  <script type="text/javascript" src="js/eeCtrl.js"></script>
+  <script>
+	$(document).ready ( function() { // autocomplete
+		$('#searchQuery').autocomplete({ source: function(term, response) {
+			// response is array of words from API
+			$.getJSON( "api/autocomplete/"+$('#searchQuery').val(), function(data) { response(data) })
+		} });
+	});
+  </script>
+</body>
+</html>
