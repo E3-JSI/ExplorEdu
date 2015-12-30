@@ -457,8 +457,9 @@ def getERNews():
     er.login(pwd['er']['user'], pwd['er']['pass'])
 
     q = QueryArticles()     # we want to make a search for articles
+    q.setDateLimit(datetime.date(2015, 12, 30), datetime.date(2020, 1, 1))
     q.addKeyword("education")       # article should contain word apple
-    q.addRequestedResult(RequestArticlesInfo(page=0, count = 10));  # get 30 articles that match the criteria
+    q.addRequestedResult(RequestArticlesInfo(sortBy="date", sortByAsc=False, page=0, count = 10));  # get 30 articles that match the criteria
     res = er.execQuery(q)
     return res
 
@@ -473,7 +474,7 @@ def getERNewsRelated(text):
 
     q = QueryArticles()     # we want to make a search for articles
     q.addKeyword(text)       # article should contain word apple
-    q.addRequestedResult(RequestArticlesInfo(page=0, count = 30));  # get 30 articles that match the criteria
+    q.addRequestedResult(RequestArticlesInfo(sortBy="date", sortByAsc = False, page=0, count=30));  # get 30 articles that match the criteria
     res = er.execQuery(q)
     return res
 
